@@ -1,0 +1,13 @@
+**/.ipynb_checkpoints
+**/__pycache__
+*.png
+*.mp4
+*.npy
+*.npz
+*.dae
+train_data/*
+logs/*
+launch.json
+train_data/
+*.mp4
+*.mov
