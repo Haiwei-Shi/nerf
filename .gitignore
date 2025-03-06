@@ -6,6 +6,7 @@
 *.npz
 *.dae
 train_data/*
+data/*
 logs/*
 launch.json
 train_data/

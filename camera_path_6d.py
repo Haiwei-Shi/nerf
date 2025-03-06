@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import os
+import configparser
 
 
 def generate_upper_hemisphere_path_with_orientation(radius=1.0, num_points=5):
@@ -44,34 +46,34 @@ def visualize_sphere_with_path(radius=1.0, path_points=None):
         radius (float): Radius of the sphere.
         path_points (np.ndarray): Array of 6D points along the path.
     """
-    fig = plt.figure(figsize=(10, 10))
-    ax = fig.add_subplot(111, projection='3d')
+    # fig = plt.figure(figsize=(10, 10))
+    # ax = fig.add_subplot(111, projection='3d')
 
-    # Create the sphere
-    phi = np.linspace(0, 2 * np.pi, 30)
-    theta = np.linspace(0, np.pi, 30)
-    phi, theta = np.meshgrid(phi, theta)
-    x = radius * np.sin(theta) * np.cos(phi)
-    y = radius * np.sin(theta) * np.sin(phi)
-    z = radius * np.cos(theta)
+    # # Create the sphere
+    # phi = np.linspace(0, 2 * np.pi, 30)
+    # theta = np.linspace(0, np.pi, 30)
+    # phi, theta = np.meshgrid(phi, theta)
+    # x = radius * np.sin(theta) * np.cos(phi)
+    # y = radius * np.sin(theta) * np.sin(phi)
+    # z = radius * np.cos(theta)
 
-    ax.plot_surface(x, y, z, color='white', alpha=0.3, edgecolor='gray')
-    ax.scatter(0, 0, 0, color='black', s=30, label="Center (Object)")
+    # ax.plot_surface(x, y, z, color='white', alpha=0.3, edgecolor='gray')
+    # ax.scatter(0, 0, 0, color='black', s=30, label="Center (Object)")
     
     axis = []
 
     if path_points is not None:
         
         path_x, path_y, path_z, theta_v, phi_v = path_points.T
-        ax.plot(path_x, path_y, path_z, color='red', label="Path Trajectory")
+        # ax.plot(path_x, path_y, path_z, color='red', label="Path Trajectory")
 
         # Initialize rolling frame
         prev_x_axis = np.array([0, 1, 0])  # Initial reference x-axis
         
         # Plot and label each point with its sequential number
         for index, (x, y, z, theta, phi) in enumerate(path_points):
-            ax.scatter(x, y, z, color='red', s=20, label="Path Points" if index == 0 else "")
-            ax.text(x, y, z, str(index + 1), color='black', fontsize=12)  # Label with sequential number
+            # ax.scatter(x, y, z, color='red', s=20, label="Path Points" if index == 0 else "")
+            # ax.text(x, y, z, str(index + 1), color='black', fontsize=12)  # Label with sequential number
 
             # Compute local axes
             point = np.array([x, y, z])
@@ -95,37 +97,37 @@ def visualize_sphere_with_path(radius=1.0, path_points=None):
             axis.append(np.column_stack((local_y_axis, local_x_axis, local_z_axis)))  # Stack as rows
 
             # Plot local axes at this point
-            ax.quiver(
-                point[0], point[1], point[2],
-                local_x_axis[0], local_x_axis[1], local_x_axis[2],
-                color='blue', label="Local X-axis" if index == 0 else ""
-                ,length=0.3, linewidth=1
-            )
-            ax.quiver(
-                point[0], point[1], point[2],
-                local_y_axis[0], local_y_axis[1], local_y_axis[2],
-                color='green', label="Local Y-axis" if index == 0 else ""
-                ,length=0.3, linewidth=1
-            )
-            ax.quiver(
-                point[0], point[1], point[2],
-                local_z_axis[0], local_z_axis[1], local_z_axis[2],
-                color='purple', label="Local Z-axis" if index == 0 else ""
-                ,length=0.3, linewidth=1
-            )
+            # ax.quiver(
+            #     point[0], point[1], point[2],
+            #     local_x_axis[0], local_x_axis[1], local_x_axis[2],
+            #     color='blue', label="Local X-axis" if index == 0 else ""
+            #     ,length=0.3, linewidth=1
+            # )
+            # ax.quiver(
+            #     point[0], point[1], point[2],
+            #     local_y_axis[0], local_y_axis[1], local_y_axis[2],
+            #     color='green', label="Local Y-axis" if index == 0 else ""
+            #     ,length=0.3, linewidth=1
+            # )
+            # ax.quiver(
+            #     point[0], point[1], point[2],
+            #     local_z_axis[0], local_z_axis[1], local_z_axis[2],
+            #     color='purple', label="Local Z-axis" if index == 0 else ""
+            #     ,length=0.3, linewidth=1
+            # )
 
 
     # Global axes
-    ax.quiver(0, 0, 0, 1, 0, 0, color='black', linewidth=1, label="Global X-axis")
-    ax.quiver(0, 0, 0, 0, 1, 0, color='black', linewidth=1, linestyle='dashed', label="Global Y-axis")
-    ax.quiver(0, 0, 0, 0, 0, 1, color='black', linewidth=1, linestyle='dotted', label="Global Z-axis")
+    # ax.quiver(0, 0, 0, 1, 0, 0, color='black', linewidth=1, label="Global X-axis")
+    # ax.quiver(0, 0, 0, 0, 1, 0, color='black', linewidth=1, linestyle='dashed', label="Global Y-axis")
+    # ax.quiver(0, 0, 0, 0, 0, 1, color='black', linewidth=1, linestyle='dotted', label="Global Z-axis")
 
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    ax.set_title("Upper Hemisphere Path with Local Axes and Sequential Numbering")
-    ax.legend()
-    plt.show()
+    # ax.set_xlabel('X')
+    # ax.set_ylabel('Y')
+    # ax.set_zlabel('Z')
+    # ax.set_title("Upper Hemisphere Path with Local Axes and Sequential Numbering")
+    # ax.legend()
+    # plt.show()
     axis = np.array(axis)
     return axis
 

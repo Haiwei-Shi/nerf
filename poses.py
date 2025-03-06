@@ -38,7 +38,7 @@ def get_points(radius=1.0, num_points=5):
     return points
 
 
-def get_axis(radius=1.0, path_points=None, length=0.0, H=800, W=800, focal=1.0):
+def get_axis(radius=1.0, path_points=None, view_direction = None, length=0.0, H=800, W=800, focal=1.0):
     """
     Visualize the sphere, path, and points along the upper hemisphere.
 
